@@ -9,7 +9,7 @@ import pytest
 from todo_cli.cli import main
 
 
-def test_add_creates_file_and_appends_line(tmp_path: Path, monkeypatch) -> None:
+def test_add_creates_file_and_appends_line(tmp_path: Path, monkeypatch, capsys) -> None:
     """BEH-02: with no todo.txt present, `add` creates it with the task line."""
     monkeypatch.chdir(tmp_path)
 
@@ -17,6 +17,7 @@ def test_add_creates_file_and_appends_line(tmp_path: Path, monkeypatch) -> None:
 
     todo_file = tmp_path / "todo.txt"
     assert todo_file.read_text(encoding="utf-8") == "Buy milk\n"
+    assert capsys.readouterr().out == ""
 
 
 def test_add_with_due_appends_due_token(tmp_path: Path) -> None:
@@ -43,7 +44,6 @@ def test_add_preserves_existing_lines(tmp_path: Path) -> None:
     todo_file.write_bytes(no_trailing)
     assert main(["add", "Next task", "--file", str(todo_file)]) == 0
     assert todo_file.read_bytes() == no_trailing + b"\nNext task\n"
-    assert todo_file.read_bytes().startswith(no_trailing)
 
 
 def test_add_file_option_targets_given_path(tmp_path: Path, monkeypatch) -> None:
@@ -58,7 +58,7 @@ def test_add_file_option_targets_given_path(tmp_path: Path, monkeypatch) -> None
     assert [p.name for p in tmp_path.iterdir()] == ["other.txt"]
 
 
-@pytest.mark.parametrize("bad_due", ["2026-13-40", "20261201", "tomorrow"])
+@pytest.mark.parametrize("bad_due", ["2026-13-40", "2026-02-30", "20261201", "tomorrow"])
 def test_add_invalid_due_exits_2_and_leaves_file_unchanged(
     tmp_path: Path, capsys, bad_due: str
 ) -> None:
@@ -75,4 +75,21 @@ def test_add_invalid_due_exits_2_and_leaves_file_unchanged(
     todo_file.write_bytes(existing)
     assert main(["add", "x", "--due", bad_due, "--file", str(todo_file)]) == 2
     assert "invalid --due" in capsys.readouterr().err
+    assert todo_file.read_bytes() == existing
+
+
+def test_add_multiline_text_exits_2_and_leaves_file_untouched(
+    tmp_path: Path, capsys
+) -> None:
+    """Task text containing a newline is rejected: exit 2, stderr, no file I/O."""
+    todo_file = tmp_path / "todo.txt"
+
+    assert main(["add", "first\nsecond", "--file", str(todo_file)]) == 2
+    assert "single line" in capsys.readouterr().err
+    assert not todo_file.exists()
+
+    existing = b"Keep me\n"
+    todo_file.write_bytes(existing)
+    assert main(["add", "first\rsecond", "--file", str(todo_file)]) == 2
+    assert "single line" in capsys.readouterr().err
     assert todo_file.read_bytes() == existing
