@@ -32,20 +32,20 @@ Source: workstreams/a-small-python-cli-that-reads-a-local-to-20261126-2d92/spec/
 
 
 ### TASK-003: `due` command: selection by date and two-section output
-P2 | TODO   Est: 0.5d
+P2 | 🔄 IN_PROGRESS   Est: 0.5d
 
 Implement scenarios BEH-07, BEH-08, BEH-09, BEH-10, BEH-11, BEH-12 (DT-03, group solo).
 Source: workstreams/a-small-python-cli-that-reads-a-local-to-20261126-2d92/spec/30-decomposition.md#DT-03
 **Depends on:** [TASK-001], [TASK-002]
 
 **Checklist:**
-- [ ] implement BEH-07: `due` prints overdue tasks sorted by date ascending
-- [ ] implement BEH-08: `due` prints the `Due soon:` section for D..D+3 inclusive
-- [ ] implement BEH-09: `due` skips far-future, undated and malformed lines
-- [ ] implement BEH-10: `due` exits 0 when nothing matches and when the file is missing
-- [ ] implement BEH-11: `due --file PATH` reads the given path
-- [ ] implement BEH-12: Today's date is injectable, so date output is deterministic
-- [ ] group check: tests/test_due.py::test_due_prints_overdue_sorted_ascending (kind: pytest), tests/test_due.py::test_due_prints_due_soon_inclusive_sorted (kind: pytest), tests/test_due.py::test_due_skips_future_undated_and_malformed (kind: pytest), tests/test_due.py::test_due_exit_zero_when_empty_or_missing_file (kind: pytest), tests/test_due.py::test_due_file_option_reads_given_path (kind: pytest), tests/test_due.py::test_due_today_is_injectable (kind: pytest) green on BEH-07, BEH-08, BEH-09, BEH-10, BEH-11, BEH-12
+- [x] implement BEH-07: `due` prints overdue tasks sorted by date ascending
+- [x] implement BEH-08: `due` prints the `Due soon:` section for D..D+3 inclusive
+- [x] implement BEH-09: `due` skips far-future, undated and malformed lines
+- [x] implement BEH-10: `due` exits 0 when nothing matches and when the file is missing
+- [x] implement BEH-11: `due --file PATH` reads the given path
+- [x] implement BEH-12: Today's date is injectable, so date output is deterministic
+- [x] group check: tests/test_due.py::test_due_prints_overdue_sorted_ascending (kind: pytest), tests/test_due.py::test_due_prints_due_soon_inclusive_sorted (kind: pytest), tests/test_due.py::test_due_skips_future_undated_and_malformed (kind: pytest), tests/test_due.py::test_due_exit_zero_when_empty_or_missing_file (kind: pytest), tests/test_due.py::test_due_file_option_reads_given_path (kind: pytest), tests/test_due.py::test_due_today_is_injectable (kind: pytest) green on BEH-07, BEH-08, BEH-09, BEH-10, BEH-11, BEH-12
 
 
 
