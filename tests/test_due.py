@@ -15,12 +15,16 @@ def run_due(todo_file: Path, today: date = TODAY) -> int:
 
 
 def test_due_prints_overdue_sorted_ascending(tmp_path: Path, capsys) -> None:
-    """BEH-07: overdue lines appear under `Overdue:` in ascending date order."""
+    """BEH-07: overdue lines appear under `Overdue:` in ascending date order.
+
+    Lines sharing a due date keep their file order.
+    """
     todo_file = tmp_path / "todo.txt"
     todo_file.write_text(
         "Late b due:2026-11-20\n"
         "Late c due:2026-11-25\n"
-        "Late a due:2026-11-01\n",
+        "Late a due:2026-11-01\n"
+        "Late b2 due:2026-11-20\n",
         encoding="utf-8",
     )
 
@@ -30,6 +34,7 @@ def test_due_prints_overdue_sorted_ascending(tmp_path: Path, capsys) -> None:
         "Overdue:\n"
         "Late a due:2026-11-01\n"
         "Late b due:2026-11-20\n"
+        "Late b2 due:2026-11-20\n"
         "Late c due:2026-11-25\n"
         "Due soon:\n"
     )
@@ -61,7 +66,7 @@ def test_due_skips_future_undated_and_malformed(tmp_path: Path, capsys) -> None:
     """BEH-09: far-future, undated and malformed lines never appear."""
     todo_file = tmp_path / "todo.txt"
     todo_file.write_text(
-        "Far future due:2026-11-30\n"
+        "Far future due:2027-03-15\n"
         "No date here\n"
         "Broken due:not-a-date\n"
         "Kept due:2026-11-26\n",
@@ -85,6 +90,12 @@ def test_due_exit_zero_when_empty_or_missing_file(tmp_path: Path, capsys) -> Non
     todo_file = tmp_path / "todo.txt"
     todo_file.write_text("Someday due:2027-06-01\n", encoding="utf-8")
     assert run_due(todo_file) == 0
+    assert capsys.readouterr().out == empty_sections
+
+    # A zero-byte file.
+    empty_file = tmp_path / "empty.txt"
+    empty_file.write_text("", encoding="utf-8")
+    assert run_due(empty_file) == 0
     assert capsys.readouterr().out == empty_sections
 
     # No todo file at all.

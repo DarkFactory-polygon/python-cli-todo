@@ -32,7 +32,7 @@ Source: workstreams/a-small-python-cli-that-reads-a-local-to-20261126-2d92/spec/
 
 
 ### TASK-003: `due` command: selection by date and two-section output
-P2 | 🔄 IN_PROGRESS   Est: 0.5d
+P2 | ✅ DONE   Est: 0.5d
 
 Implement scenarios BEH-07, BEH-08, BEH-09, BEH-10, BEH-11, BEH-12 (DT-03, group solo).
 Source: workstreams/a-small-python-cli-that-reads-a-local-to-20261126-2d92/spec/30-decomposition.md#DT-03
