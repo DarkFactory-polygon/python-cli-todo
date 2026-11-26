@@ -15,19 +15,19 @@ Source: workstreams/a-small-python-cli-that-reads-a-local-to-20261126-2d92/spec/
 
 
 ### TASK-002: `add` command: line format, append, due validation
-P2 | TODO   Est: 0.5d
+P2 | ✅ DONE   Est: 0.5d
 
 Implement scenarios BEH-02, BEH-03, BEH-04, BEH-05, BEH-06 (DT-02, group solo).
 Source: workstreams/a-small-python-cli-that-reads-a-local-to-20261126-2d92/spec/30-decomposition.md#DT-02
 **Depends on:** [TASK-001]
 
 **Checklist:**
-- [ ] implement BEH-02: `add` appends a plain task and creates the file
-- [ ] implement BEH-03: `add --due` stores the due token at the end of the line
-- [ ] implement BEH-04: `add` preserves the existing content byte-for-byte
-- [ ] implement BEH-05: `add --file PATH` writes to the given path
-- [ ] implement BEH-06: An invalid due date is rejected without touching the file
-- [ ] group check: tests/test_add.py::test_add_creates_file_and_appends_line (kind: pytest), tests/test_add.py::test_add_with_due_appends_due_token (kind: pytest), tests/test_add.py::test_add_preserves_existing_lines (kind: pytest), tests/test_add.py::test_add_file_option_targets_given_path (kind: pytest), tests/test_add.py::test_add_invalid_due_exits_2_and_leaves_file_unchanged (kind: pytest) green on BEH-02, BEH-03, BEH-04, BEH-05, BEH-06
+- [x] implement BEH-02: `add` appends a plain task and creates the file
+- [x] implement BEH-03: `add --due` stores the due token at the end of the line
+- [x] implement BEH-04: `add` preserves the existing content byte-for-byte
+- [x] implement BEH-05: `add --file PATH` writes to the given path
+- [x] implement BEH-06: An invalid due date is rejected without touching the file
+- [x] group check: tests/test_add.py::test_add_creates_file_and_appends_line (kind: pytest), tests/test_add.py::test_add_with_due_appends_due_token (kind: pytest), tests/test_add.py::test_add_preserves_existing_lines (kind: pytest), tests/test_add.py::test_add_file_option_targets_given_path (kind: pytest), tests/test_add.py::test_add_invalid_due_exits_2_and_leaves_file_unchanged (kind: pytest) green on BEH-02, BEH-03, BEH-04, BEH-05, BEH-06
 
 
 
