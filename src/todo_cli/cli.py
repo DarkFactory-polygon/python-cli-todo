@@ -39,17 +39,31 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 def cmd_add(text: str, due: str | None, path: Path) -> int:
+    if text != "".join(text.splitlines()):
+        print("todo: task text must be a single line", file=sys.stderr)
+        return 2
     try:
         due_date = tasks.parse_due_token(due) if due is not None else None
     except tasks.InvalidDue as exc:
         print(f"todo: invalid --due value: {exc}", file=sys.stderr)
         return 2
-    storage.append_line(path, tasks.format_line(text, due_date))
+    try:
+        storage.append_line(path, tasks.format_line(text, due_date))
+    except OSError as exc:
+        print(f"todo: cannot write {path}: {exc.strerror or exc}", file=sys.stderr)
+        return 1
     return 0
 
 
 def cmd_due(path: Path, today: date) -> int:
-    lines = storage.read_lines(path)
+    try:
+        lines = storage.read_lines(path)
+    except OSError as exc:
+        print(f"todo: cannot read {path}: {exc.strerror or exc}", file=sys.stderr)
+        return 1
+    except UnicodeDecodeError:
+        print(f"todo: cannot read {path}: not valid UTF-8", file=sys.stderr)
+        return 1
     overdue, due_soon = tasks.select_due(lines, today)
     print("Overdue:")
     for line in overdue:
