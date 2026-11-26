@@ -15,7 +15,7 @@ Source: workstreams/a-small-python-cli-that-reads-a-local-to-20261126-2d92/spec/
 
 
 ### TASK-002: `add` command: line format, append, due validation
-P2 | TODO   Est: 0.5d
+P2 | 🔄 IN_PROGRESS   Est: 0.5d
 
 Implement scenarios BEH-02, BEH-03, BEH-04, BEH-05, BEH-06 (DT-02, group solo).
 Source: workstreams/a-small-python-cli-that-reads-a-local-to-20261126-2d92/spec/30-decomposition.md#DT-02
